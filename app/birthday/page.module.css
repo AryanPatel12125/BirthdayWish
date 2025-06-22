@@ -7,9 +7,21 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #fce4ec, #f8bbd0);
   padding: 2rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   overflow: hidden;
   position: relative;
+  width: 100vw;
+  height: 100vh;
+  /* Add an animated gradient background to fill the void */
+  background: linear-gradient(240deg, #f8bbd0, #fce4ec, #e1bee7);
+  background-size: 400% 400%;
+  animation: gradient-flow 15s ease infinite;
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .card {
@@ -151,5 +163,82 @@
   to {
     transform: translateY(100vh) rotate(720deg);
     opacity: 1;
+  }
+}
+
+/* --- Responsive Design for Mobile --- */
+@media (max-width: 768px) {
+  .card {
+    /* Allow card to grow in height based on content */
+    height: auto;
+    max-height: 90vh;
+    width: 95vw;
+  }
+
+  .cardBack {
+    /* Stack content vertically on smaller screens */
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .posterPlaceholder {
+    min-height: 200px;
+    width: 100%;
+    flex: 0; /* Reset flex grow */
+  }
+
+  .message {
+    /* Adjust font sizes for readability */
+    text-align: center;
+  }
+
+  .message h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .message p {
+    font-size: 1rem;
+  }
+
+  .signature {
+    margin-top: 1rem;
+    text-align: center;
+  }
+}
+
+.backgroundImage {
+  /* Image sits on top of the gradient, but below orbs */
+  z-index: 1;
+}
+
+/* --- Floating Orbs --- */
+.orbContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Orbs appear on top of the poster */
+  pointer-events: none; /* Allow clicks to pass through */
+}
+
+.orb {
+  position: absolute;
+  bottom: -100px; /* Start below the screen */
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0));
+  border-radius: 50%;
+  opacity: var(--opacity);
+  animation: floatUp var(--duration) var(--delay) linear infinite;
+  left: var(--x-start);
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-120vh); /* Move far above the screen */
+    left: var(--x-end);
   }
 }

@@ -29,20 +29,18 @@ The shaky start, the flying will?`;
 
   return (
     <main className={styles.main}>
-      <div className={`${styles.gateContainer} ${error ? styles.shake : ''}`}>
-        <div className={styles.riddleBox}>
-          <p>{riddle}</p>
-        </div>
+      <div className={styles.gateContainer}>
+        <p className={styles.riddle}>{riddle}</p>
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="text"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             placeholder="Enter the secret word"
-            className={styles.input}
-            aria-label="Secret word input"
+            className={`${styles.input} ${error ? styles.inputError : ''}`}
+            autoFocus
           />
-          <button type="submit" className={styles.button}>
+          <button type="submit" className={styles.submitButton}>
             Unlock Surprise
           </button>
         </form>
