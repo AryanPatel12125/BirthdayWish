@@ -128,11 +128,22 @@ export default function TrialPage() {
         </div>
       )}
 
+      {/* Music Player Slider (now separate) */}
+      <div className={styles.musicPlayer}>
+        <div className={styles.songInfoSlider}>
+          <div className={styles.songInfoTrack}>
+            <span>Mikrokosmos - BTS Playing...&nbsp;&nbsp;&nbsp;</span>
+            <span>Mikrokosmos - BTS Playing...&nbsp;&nbsp;&nbsp;</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Standalone Mute Button */}
       <button className={styles.muteBtn} onClick={toggleMute}>
         {isMuted ? "🔇" : "🔊"}
       </button>
 
-      <audio ref={bgMusicRef} src="https://hindi.djpunjab.app/load/MLNyCd86wmLEJPdPIiSd8Q==/Badhai%20Ho%20Badhai%20Janm%20Din%20Ki.mp3" loop />
+      <audio ref={bgMusicRef} src="/mikrokosmos.mp3" loop />
     </main>
   );
 }
