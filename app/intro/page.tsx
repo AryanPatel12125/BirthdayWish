@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 
 // --- Data Arrays ---
@@ -13,12 +12,11 @@ const wishes = [
 ];
 
 export default function TrialPage() {
-  const router = useRouter();
   const [isStarted, setIsStarted] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [isMuted, setIsMuted] = useState(false);
   const [stars, setStars] = useState<{left: string, top: string, width: string, duration: string}[]>([]);
-  const [isAnimationFinished, setIsAnimationFinished] = useState(false); // 1. Add state for the button
+
   const bgMusicRef = useRef<HTMLAudioElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const emojiIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -54,9 +52,9 @@ export default function TrialPage() {
     setDisplayText('');
     for (let char of text) {
       setDisplayText(prev => prev + char);
-      await new Promise(resolve => setTimeout(resolve, 70));
+      await new Promise(resolve => setTimeout(resolve, 100));
     }
-    await new Promise(resolve => setTimeout(resolve, 700));
+    await new Promise(resolve => setTimeout(resolve, 1000));
   };
 
   // --- Event Handlers ---
@@ -74,14 +72,6 @@ export default function TrialPage() {
     if (emojiIntervalRef.current) {
       clearInterval(emojiIntervalRef.current);
     }
-    
-    // 2. Show the button instead of redirecting
-    setIsAnimationFinished(true);
-  };
-
-  // 3. Create a handler for the new button
-  const handleNextClick = () => {
-    router.push('/guess');
   };
 
   const toggleMute = () => {
@@ -119,12 +109,6 @@ export default function TrialPage() {
       ) : (
         <div className={styles.wishesContainer}>
           <div className={`${styles.wishes} ${styles.neonText}`}>{displayText}</div>
-          {/* 4. Conditionally render the button */}
-          {isAnimationFinished && (
-            <button className={styles.nextButton} onClick={handleNextClick}>
-              Continue →
-            </button>
-          )}
         </div>
       )}
 

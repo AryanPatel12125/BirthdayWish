@@ -2,15 +2,13 @@
   position: relative;
   width: 100vw;
   height: 100vh;
+  background: #000;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Poppins', sans-serif;
   transition: background 1s ease;
-
-  /* New simpler background to match the image */
-  background: #4c1d3f;
 }
 
 /* --- Stars --- */
@@ -50,24 +48,24 @@
   from { transform: translateY(0) rotate(0deg); }
   to { transform: translateY(100vh) rotate(360deg); }
 }
+
 /* --- Buttons --- */
 .startBtn {
   padding: 1rem 2rem;
   font-size: 1.5rem;
-  font-weight: 600;
-  color: #fff; /* White text */
-  background: rgba(0, 0, 0, 0.2); /* Dark transparent background */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+  color: #fff;
+  background: linear-gradient(45deg, #f06, #9f6);
+  border: none;
   border-radius: 50px;
   cursor: pointer;
+  animation: pulse 2s infinite;
   z-index: 10;
-  transition: all 0.3s ease;
 }
 
-.startBtn:hover {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.05);
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 102, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 10px 20px rgba(255, 0, 102, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 0, 102, 0); }
 }
 
 .muteBtn {
@@ -88,38 +86,6 @@
   color: white;
 }
 
-/* Simpler style for the Continue button */
-.nextButton {
-  margin-top: 2rem;
-  padding: 0.8rem 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #fff; /* White text */
-  background: rgba(0, 0, 0, 0.2); /* Dark transparent background */
-  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  /* Animation properties */
-  opacity: 0;
-  transform: translateY(20px);
-  animation: slide-in 0.8s ease-out forwards;
-}
-
-.nextButton:hover {
-  background: rgba(0, 0, 0, 0.4);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: scale(1.05);
-}
-
-@keyframes slide-in {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* --- Content --- */
 .wishesContainer {
   z-index: 10;
@@ -137,19 +103,18 @@
   font-weight: bold;
   min-height: 150px;
   white-space: pre-wrap;
-  /* Changed to a very light, soft pink for a warmer feel */
-  color: #d978ff; 
+  /* This is the base color of the text itself */
+  color: #fce4ec; 
 }
 
 .neonText {
-  /* Brighter, more focused glow to match the image */
+  /* This adds the glow effect on top of the base color */
   text-shadow:
-    0 0 7px #690000,
-    0 0 10px #570000,
-    0 0 21px #8b005d,
-    0 0 42px #f0f,
-    0 0 82px #f0f,
-    0 0 92px #f0f,
-    0 0 102px #f0f,
-    0 0 151px #f0f;
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #720072,
+    0 0 30px #720072,
+    0 0 40px #720072,
+    0 0 55px #720072,
+    0 0 75px #720072;
 }
