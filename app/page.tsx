@@ -50,13 +50,27 @@ export default function TrialPage() {
     }
   };
 
+  // --- Typewriter Effect ---
   const typeWriter = async (text: string) => {
-    setDisplayText('');
-    for (let char of text) {
-      setDisplayText(prev => prev + char);
-      await new Promise(resolve => setTimeout(resolve, 70));
+    for (const char of text) { // Changed 'let' to 'const'
+      setDisplayText((prev) => prev + char);
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    await new Promise(resolve => setTimeout(resolve, 700));
+  };
+
+  const startTypingAnimation = async () => {
+    setIsAnimationFinished(false);
+    setDisplayText('');
+
+    for (const wish of wishes) { // Changed 'let' to 'const'
+      await typeWriter(wish);
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Pause between wishes
+      if (wishes.indexOf(wish) < wishes.length - 1) {
+        setDisplayText('');
+      }
+    }
+
+    setIsAnimationFinished(true);
   };
 
   // --- Event Handlers ---
@@ -67,9 +81,7 @@ export default function TrialPage() {
     playAudio(bgMusicRef);
     emojiIntervalRef.current = setInterval(createEmoji, 300);
 
-    for (let wish of wishes) {
-      await typeWriter(wish);
-    }
+    await startTypingAnimation();
     
     if (emojiIntervalRef.current) {
       clearInterval(emojiIntervalRef.current);

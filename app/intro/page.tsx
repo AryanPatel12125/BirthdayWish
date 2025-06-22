@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation'; // 1. Import the router
 import styles from './page.module.css';
 
 // --- Data Arrays ---
@@ -12,8 +13,10 @@ const wishes = [
 ];
 
 export default function TrialPage() {
+  const router = useRouter(); // 2. Initialize the router
   const [isStarted, setIsStarted] = useState(false);
   const [displayText, setDisplayText] = useState('');
+  const [isAnimationFinished, setIsAnimationFinished] = useState(false); // 3. Add the missing state
   const [isMuted, setIsMuted] = useState(false);
   const [stars, setStars] = useState<{left: string, top: string, width: string, duration: string}[]>([]);
 
@@ -48,30 +51,46 @@ export default function TrialPage() {
     }
   };
 
+  // --- Typewriter Effect ---
   const typeWriter = async (text: string) => {
-    setDisplayText('');
-    for (let char of text) {
-      setDisplayText(prev => prev + char);
-      await new Promise(resolve => setTimeout(resolve, 100));
+    for (const char of text) {
+      setDisplayText((prev) => prev + char);
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    await new Promise(resolve => setTimeout(resolve, 1000));
   };
 
-  // --- Event Handlers ---
-  const handleStart = async () => {
+  const startTypingAnimation = async () => {
     setIsStarted(true);
     if (mainRef.current) mainRef.current.requestFullscreen().catch(err => console.log(err));
     
     playAudio(bgMusicRef);
     emojiIntervalRef.current = setInterval(createEmoji, 300);
 
-    for (let wish of wishes) {
+    setIsAnimationFinished(false);
+    setDisplayText('');
+
+    for (const wish of wishes) {
       await typeWriter(wish);
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Pause between wishes
+      if (wishes.indexOf(wish) < wishes.length - 1) {
+        setDisplayText('');
+      }
     }
     
     if (emojiIntervalRef.current) {
       clearInterval(emojiIntervalRef.current);
     }
+    setIsAnimationFinished(true); // 4. Set state to true after animation
+  };
+
+  // 5. Define the handleStart function
+  const handleStart = () => {
+    startTypingAnimation();
+  };
+
+  // 6. Define the function to handle clicking the "Continue" button
+  const handleNextClick = () => {
+    router.push('/guess');
   };
 
   const toggleMute = () => {
@@ -109,6 +128,12 @@ export default function TrialPage() {
       ) : (
         <div className={styles.wishesContainer}>
           <div className={`${styles.wishes} ${styles.neonText}`}>{displayText}</div>
+          {/* 7. Conditionally render the button */}
+          {isAnimationFinished && (
+            <button className={styles.nextButton} onClick={handleNextClick}>
+              Continue →
+            </button>
+          )}
         </div>
       )}
 
