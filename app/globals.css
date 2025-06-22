@@ -50,7 +50,7 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-/* This rule in globals.css hides the icon from all pages */
+/* This rule in your global stylesheet is the correct solution */
 [data-vercel-id] {
   display: none !important;
 }
