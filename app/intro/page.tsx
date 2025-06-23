@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react'; // Ensure useEffect is imported
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 
@@ -11,6 +11,12 @@ const wishes = [
   "We wanted to wish you in a very unique way... 🎉",
   "Let's take you on a little journey!... 🚀",
 ];
+
+// This interface defines the possible fullscreen methods for cross-browser safety
+interface HTMLElementWithFullscreen extends HTMLElement {
+  webkitRequestFullscreen?: () => Promise<void>;
+  msRequestFullscreen?: () => Promise<void>;
+}
 
 export default function TrialPage() {
   const router = useRouter();
@@ -25,13 +31,15 @@ export default function TrialPage() {
   const emojiIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // --- Helper Functions ---
+  // This function now uses our safe interface instead of 'any'
   const goFullScreen = (element: HTMLElement) => {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if ((element as any).webkitRequestFullscreen) { /* Safari */
-      (element as any).webkitRequestFullscreen();
-    } else if ((element as any).msRequestFullscreen) { /* IE11 */
-      (element as any).msRequestFullscreen();
+    const el = element as HTMLElementWithFullscreen;
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) { /* Safari */
+      el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) { /* IE11 */
+      el.msRequestFullscreen();
     }
   };
 
@@ -42,6 +50,26 @@ export default function TrialPage() {
       ref.current.play().catch(err => console.log("Audio play failed:", err));
     }
   };
+
+  // --- Effects ---
+  // This useEffect was missing, causing the 'unused variable' errors.
+  useEffect(() => {
+    // Create stars on component mount
+    const generatedStars = Array.from({ length: 200 }).map(() => ({
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      width: `${Math.random() * 3}px`,
+      duration: `${Math.random() * 3 + 1}s`,
+    }));
+    setStars(generatedStars);
+
+    // Cleanup interval on component unmount
+    return () => {
+      if (emojiIntervalRef.current) {
+        clearInterval(emojiIntervalRef.current);
+      }
+    };
+  }, []);
 
   // --- Typewriter Effect ---
   const typeWriter = async (text: string) => {

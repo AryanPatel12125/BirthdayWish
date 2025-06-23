@@ -12,6 +12,12 @@ const wishes = [
   "Let's take you on a little journey!... 🚀",
 ];
 
+// This interface defines the possible fullscreen methods for cross-browser safety
+interface HTMLElementWithFullscreen extends HTMLElement {
+  webkitRequestFullscreen?: () => Promise<void>;
+  msRequestFullscreen?: () => Promise<void>;
+}
+
 export default function TrialPage() {
   const router = useRouter();
   const [isStarted, setIsStarted] = useState(false);
@@ -24,17 +30,15 @@ export default function TrialPage() {
   const emojiIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // --- Helper Functions ---
-  /**
-   * A cross-browser function to request fullscreen.
-   * It checks for the function name that the current browser supports.
-   */
+  // This function now uses our safe interface instead of 'any'
   const goFullScreen = (element: HTMLElement) => {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if ((element as any).webkitRequestFullscreen) { /* Safari */
-      (element as any).webkitRequestFullscreen();
-    } else if ((element as any).msRequestFullscreen) { /* IE11 */
-      (element as any).msRequestFullscreen();
+    const el = element as HTMLElementWithFullscreen;
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+    } else if (el.webkitRequestFullscreen) { /* Safari */
+      el.webkitRequestFullscreen();
+    } else if (el.msRequestFullscreen) { /* IE11 */
+      el.msRequestFullscreen();
     }
   };
 
