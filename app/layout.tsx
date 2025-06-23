@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-// 1. Import the font from next/font/google
-import { Montserrat } from "next/font/google";
+import { Montserrat } from "next/font/google"; // 1. Import from next/font
 import "./globals.css";
 
-// 2. Configure the font with desired weights and subsets
+// 2. Configure the font
 const montserrat = Montserrat({ 
   subsets: ["latin"],
-  weight: ['400', '600', '700'] // Add weights you use in your CSS
+  weight: ['400', '600', '700'] // Include all weights you use
 });
 
 export const metadata: Metadata = {
@@ -20,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // 3. Apply the font's className to the body tag
     <html lang="en">
+      {/* 3. Apply the font's class name to the body */}
       <body className={montserrat.className}>{children}</body>
     </html>
   );

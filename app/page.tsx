@@ -58,40 +58,48 @@ export default function TrialPage() {
     }
   };
 
+  // This function should ONLY be responsible for the typing animation.
+  // All state management will be moved to handleStart.
   const startTypingAnimation = async () => {
-    setIsAnimationFinished(false);
     setDisplayText('');
-
-    for (const wish of wishes) { // Changed 'let' to 'const'
+    for (const wish of wishes) {
       await typeWriter(wish);
-      await new Promise((resolve) => setTimeout(resolve, 500)); // Pause between wishes
+      await new Promise((resolve) => setTimeout(resolve, 500));
       if (wishes.indexOf(wish) < wishes.length - 1) {
         setDisplayText('');
       }
     }
-
-    setIsAnimationFinished(true);
   };
 
   // --- Event Handlers ---
-  const handleStart = async () => {
+  // This function is restructured to be more iOS-friendly.
+  const handleStart = () => {
     setIsStarted(true);
-    if (mainRef.current) mainRef.current.requestFullscreen().catch(err => console.log(err));
-    
-    playAudio(bgMusicRef);
-    emojiIntervalRef.current = setInterval(createEmoji, 300);
+    setIsAnimationFinished(false);
 
-    await startTypingAnimation();
-    
-    if (emojiIntervalRef.current) {
-      clearInterval(emojiIntervalRef.current);
+    // 1. Play audio IMMEDIATELY. This is the highest priority.
+    playAudio(bgMusicRef);
+
+    // 2. Request fullscreen. This might fail, but the app will continue.
+    if (mainRef.current) {
+      mainRef.current.requestFullscreen().catch(err => {
+        console.log("Fullscreen request failed:", err);
+      });
     }
     
-    // 2. Show the button instead of redirecting
-    setIsAnimationFinished(true);
+    // 3. Start visual effects.
+    emojiIntervalRef.current = setInterval(createEmoji, 300);
+
+    // 4. Run the animation and handle cleanup only when it's done.
+    startTypingAnimation().then(() => {
+      if (emojiIntervalRef.current) {
+        clearInterval(emojiIntervalRef.current);
+      }
+      // Show the 'Continue' button after everything else is finished.
+      setIsAnimationFinished(true);
+    });
   };
 
-  // 3. Create a handler for the new button
   const handleNextClick = () => {
     router.push('/guess');
   };
@@ -126,7 +134,7 @@ export default function TrialPage() {
 
       {!isStarted ? (
         <button className={styles.startBtn} onClick={handleStart}>
-          Click to Start ✨
+          Click to Start T2✨
         </button>
       ) : (
         <div className={styles.wishesContainer}>
