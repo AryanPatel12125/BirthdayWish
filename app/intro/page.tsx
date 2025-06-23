@@ -80,15 +80,18 @@ export default function TrialPage() {
     if (emojiIntervalRef.current) {
       clearInterval(emojiIntervalRef.current);
     }
-    setIsAnimationFinished(true); // 4. Set state to true after animation
+    setIsAnimationFinished(true);
   };
 
-  // 5. Define the handleStart function
+  // The handleStart function is now the main entry point for the user's click
   const handleStart = () => {
+    // 1. Immediately try to play the audio on the user's tap.
+    playAudio(bgMusicRef); 
+    
+    // 2. Then, start the rest of the animations.
     startTypingAnimation();
   };
 
-  // 6. Define the function to handle clicking the "Continue" button
   const handleNextClick = () => {
     router.push('/guess');
   };
@@ -141,7 +144,8 @@ export default function TrialPage() {
         {isMuted ? "🔇" : "🔊"}
       </button>
 
-      <audio ref={bgMusicRef} src="https://hindi.djpunjab.app/load/MLNyCd86wmLEJPdPIiSd8Q==/Badhai%20Ho%20Badhai%20Janm%20Din%20Ki.mp3" loop />
+      {/* 3. Use the local, self-hosted audio file */}
+      <audio ref={bgMusicRef} src="/birthday-song.mp3" loop />
     </main>
   );
 }
