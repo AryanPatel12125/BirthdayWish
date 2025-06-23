@@ -185,15 +185,15 @@
   color: transparent;
   background: linear-gradient(90deg, #ff00ff, #ff99ff, #ffffff, #ff99ff, #ff00ff);
   background-size: 200% auto;
-  -webkit-background-clip: text; /* THE CRITICAL FIX FOR iOS/SAFARI */
+  -webkit-background-clip: text;
   background-clip: text;
   animation: neon-flow 5s linear infinite;
+  /* This is the deeper, more atmospheric text-shadow you wanted */
   text-shadow:
-    0 0 5px #ff00ff,
-    0 0 10px #ff00ff,
-    0 0 20px #ff00ff,
-    0 0 40px #d600d6,
-    0 0 80px #d600d6;
+    0 0 5px #ff00ff,      /* Inner vibrant glow */
+    0 0 15px #ff00c8,     /* Mid glow */
+    0 0 30px #8b005d,     /* Outer atmospheric glow (dark magenta) */
+    0 0 50px #690000;     /* Farthest atmospheric glow (dark red) */
 }
 
 @keyframes neon-flow {

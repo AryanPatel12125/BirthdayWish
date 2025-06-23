@@ -108,13 +108,28 @@
 }
 
 .neonText {
-  /* This adds the glow effect on top of the base color */
+  color: transparent;
+  background: linear-gradient(90deg, #ff00ff, #ff99ff, #ffffff, #ff99ff, #ff00ff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: neon-flow 5s linear infinite;
+  /* This is the deeper, more atmospheric text-shadow you wanted */
   text-shadow:
-    0 0 5px #fff,
-    0 0 10px #fff,
-    0 0 20px #720072,
-    0 0 30px #720072,
-    0 0 40px #720072,
-    0 0 55px #720072,
-    0 0 75px #720072;
+    0 0 5px #690000,     /* Farthest atmospheric glow (dark red) */
+    0 0 15px #8b005d,     /* Outer atmospheric glow (dark magenta) */
+    0 0 30px #ff00c8,     /* Mid glow */
+    0 0 50px #ff00ff;      /* Inner vibrant glow */
+}
+
+@keyframes neon-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

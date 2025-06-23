@@ -143,7 +143,7 @@ export default function TrialPage() {
 
       {!isStarted ? (
         <button className={styles.startBtn} onClick={handleStart}>
-          Click to Start T2✨
+          Click to Start✨
         </button>
       ) : (
         <div className={styles.wishesContainer}>
