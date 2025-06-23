@@ -2,8 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Explicitly set height and width to fill the viewport */
-  height: 100vh;
+  height: 100dvh; /* Use dvh to fill the screen correctly */
   width: 100vw;
   background-color: #fde7f3; /* Soft pink background from image */
   /* padding: 2rem; */ /* This line must be removed or commented out */

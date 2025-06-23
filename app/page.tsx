@@ -23,6 +23,21 @@ export default function TrialPage() {
   const mainRef = useRef<HTMLElement>(null);
   const emojiIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // --- Helper Functions ---
+  /**
+   * A cross-browser function to request fullscreen.
+   * It checks for the function name that the current browser supports.
+   */
+  const goFullScreen = (element: HTMLElement) => {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if ((element as any).webkitRequestFullscreen) { /* Safari */
+      (element as any).webkitRequestFullscreen();
+    } else if ((element as any).msRequestFullscreen) { /* IE11 */
+      (element as any).msRequestFullscreen();
+    }
+  };
+
   // --- Effects ---
   useEffect(() => {
     // Create stars on component mount
@@ -43,6 +58,7 @@ export default function TrialPage() {
   }, []);
 
   // --- Audio and Effects Control ---
+  // This corrected type signature EXACTLY matches the type of bgMusicRef
   const playAudio = (ref: React.RefObject<HTMLAudioElement | null>) => {
     if (ref.current) {
       ref.current.volume = 0.5;
@@ -50,7 +66,6 @@ export default function TrialPage() {
     }
   };
 
-  // --- Typewriter Effect ---
   const typeWriter = async (text: string) => {
     for (const char of text) { // Changed 'let' to 'const'
       setDisplayText((prev) => prev + char);
@@ -76,21 +91,15 @@ export default function TrialPage() {
   const handleStart = () => {
     setIsStarted(true);
     setIsAnimationFinished(false);
-
-    // 1. Play audio IMMEDIATELY. This is the highest priority.
     playAudio(bgMusicRef);
 
-    // 2. Request fullscreen. This might fail, but the app will continue.
+    // Use our new, robust fullscreen function
     if (mainRef.current) {
-      mainRef.current.requestFullscreen().catch(err => {
-        console.log("Fullscreen request failed:", err);
-      });
+      goFullScreen(mainRef.current);
     }
     
-    // 3. Start visual effects.
     emojiIntervalRef.current = setInterval(createEmoji, 300);
 
-    // 4. Run the animation and handle cleanup only when it's done.
     startTypingAnimation().then(() => {
       if (emojiIntervalRef.current) {
         clearInterval(emojiIntervalRef.current);

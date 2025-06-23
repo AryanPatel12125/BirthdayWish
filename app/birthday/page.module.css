@@ -4,15 +4,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  width: 100%; /* Use 100% to fill the parent (body) */
+  height: 100%; /* Use 100% to fill the parent (body) */
   padding: 2rem;
-  font-family: 'Montserrat', sans-serif;
   overflow: hidden;
   position: relative;
-  width: 100vw;
-  height: 100vh;
-  /* Add an animated gradient background to fill the void */
+  /* The animated gradient is the only background needed */
   background: linear-gradient(240deg, #f8bbd0, #fce4ec, #e1bee7);
   background-size: 400% 400%;
   animation: gradient-flow 15s ease infinite;

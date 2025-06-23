@@ -1,16 +1,24 @@
-import type { Metadata } from "next";
-import { Montserrat } from "next/font/google"; // 1. Import from next/font
+import type { Metadata, Viewport } from "next"; // 1. Import Viewport
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-// 2. Configure the font
 const montserrat = Montserrat({ 
   subsets: ["latin"],
-  weight: ['400', '600', '700'] // Include all weights you use
+  weight: ['400', '600', '700']
 });
 
+// 2. The metadata object should ONLY contain metadata
 export const metadata: Metadata = {
   title: "A Birthday Surprise!",
   description: "A special wish for a special person.",
+};
+
+// 3. Create a new, separate export for the viewport settings
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1, // Prevents zooming, which can break the layout
+  userScalable: false, // Prevents zooming
 };
 
 export default function RootLayout({
@@ -20,7 +28,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* 3. Apply the font's class name to the body */}
       <body className={montserrat.className}>{children}</body>
     </html>
   );
