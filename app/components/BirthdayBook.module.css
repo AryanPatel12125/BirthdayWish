@@ -1,0 +1,378 @@
+/* BirthdayBook.module.css */
+
+.bookContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bookContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+  animation: backgroundFloat 10s ease-in-out infinite;
+}
+
+@keyframes backgroundFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+
+.bookWrapper {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+.flipBook {
+  margin: 0 auto;
+}
+
+/* Page Styles */
+.page {
+  background: linear-gradient(145deg, #ffecd2 0%, #fcb69f 100%);
+  border: 2px solid #f8d7a3;
+  box-shadow: inset 0 0 20px rgba(248, 215, 163, 0.5);
+  padding: 30px;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.1) 2px,
+      rgba(255, 255, 255, 0.1) 4px
+    );
+  pointer-events: none;
+}
+
+/* Cover Page */
+.coverPage {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.coverContent {
+  z-index: 2;
+  position: relative;
+}
+
+.coverTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.2); }
+  to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.4); }
+}
+
+.coverEmoji {
+  font-size: 4rem;
+  margin: 20px 0;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+.coverSubtitle {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.tapHint {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Back Cover */
+.backCover {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.backContent {
+  z-index: 2;
+  position: relative;
+}
+
+.backEmojis {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  letter-spacing: 10px;
+}
+
+.backText {
+  font-size: 1.1rem;
+  color: #555;
+  font-style: italic;
+}
+
+/* Page Content */
+.pageContent {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.pageTitle {
+  font-size: 1.8rem;
+  color: #4a4a4a;
+  margin-bottom: 25px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.pageText {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Decorative Elements */
+.decorativeEmojis {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 20px 0;
+  letter-spacing: 15px;
+}
+
+.decorativeEmojis span {
+  display: inline-block;
+  animation: twinkle 1.5s infinite;
+}
+
+.decorativeEmojis span:nth-child(1) { animation-delay: 0s; }
+.decorativeEmojis span:nth-child(2) { animation-delay: 0.5s; }
+.decorativeEmojis span:nth-child(3) { animation-delay: 1s; }
+
+@keyframes twinkle {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* Memory Box */
+.memoryBox {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.memoryItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.memoryEmoji {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.memoryItem p {
+  margin: 0;
+  font-size: 1rem;
+  color: #444;
+}
+
+/* Poster Page */
+.posterPage {
+  position: relative;
+  background: #000;
+  padding: 0;
+}
+
+.posterImage {
+  border-radius: 10px;
+}
+
+/* Wish List */
+.wishList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wish {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 12px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.wish span {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.wish p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* Final Message */
+.finalMessage {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signature {
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.signatureFrom {
+  font-style: italic;
+  margin-top: 10px;
+}
+
+.hearts {
+  font-size: 1.5rem;
+  margin-top: 20px;
+  letter-spacing: 5px;
+  animation: heartBeat 1.5s infinite;
+}
+
+@keyframes heartBeat {
+  0%, 50%, 100% { transform: scale(1); }
+  25%, 75% { transform: scale(1.1); }
+}
+
+/* Navigation Controls */
+.controls {
+  display: flex;
+  gap: 20px;
+  z-index: 2;
+}
+
+.navButton {
+  background: linear-gradient(145deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.navButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.navButton:active {
+  transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .bookContainer {
+    padding: 10px;
+  }
+  
+  .coverTitle {
+    font-size: 2rem;
+  }
+  
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+  
+  .pageText {
+    font-size: 1rem;
+  }
+  
+  .navButton {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .coverTitle {
+    font-size: 1.8rem;
+  }
+  
+  .coverEmoji {
+    font-size: 3rem;
+  }
+  
+  .pageTitle {
+    font-size: 1.3rem;
+  }
+  
+  .controls {
+    gap: 15px;
+  }
+}

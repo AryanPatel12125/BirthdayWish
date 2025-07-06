@@ -207,3 +207,27 @@
   50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
+
+/* --- Mode Toggle Button --- */
+.modeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(102, 126, 234, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.modeToggle:hover {
+  background: rgba(102, 126, 234, 1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}

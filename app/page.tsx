@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import IntroBook from './components/IntroBook';
 import styles from './page.module.css';
 
 // --- Data Arrays ---
 const wishes = [
-  "🌟 Dear Janki... 🌟",
+  "🌟 Dear Heli... 🌟",
   "On this special day... ✨",
   "We wanted to wish you in a very unique way... 🎉",
   "Let's take you on a little journey!... 🚀",
@@ -20,14 +21,20 @@ interface HTMLElementWithFullscreen extends HTMLElement {
 
 export default function TrialPage() {
   const router = useRouter();
+  const [useBookMode, setUseBookMode] = useState(true); // Toggle between book and original
   const [isStarted, setIsStarted] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [isMuted, setIsMuted] = useState(false);
   const [stars, setStars] = useState<{left: string, top: string, width: string, duration: string}[]>([]);
-  const [isAnimationFinished, setIsAnimationFinished] = useState(false); // 1. Add state for the button
+  const [isAnimationFinished, setIsAnimationFinished] = useState(false);
   const bgMusicRef = useRef<HTMLAudioElement>(null);
   const mainRef = useRef<HTMLElement>(null);
   const emojiIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  // If book mode is enabled, render the IntroBook component
+  if (useBookMode) {
+    return <IntroBook onToggleMode={() => setUseBookMode(false)} />;
+  }
 
   // --- Helper Functions ---
   // This function now uses our safe interface instead of 'any'
@@ -144,6 +151,15 @@ export default function TrialPage() {
           <div key={i} className={styles.star} style={{ ...star, height: star.width, '--duration': star.duration } as React.CSSProperties} />
         ))}
       </div>
+
+      {/* Mode Toggle Button */}
+      <button 
+        className={styles.modeToggle} 
+        onClick={() => setUseBookMode(true)}
+        title="Switch to Book Mode"
+      >
+        📖
+      </button>
 
       {!isStarted ? (
         <button className={styles.startBtn} onClick={handleStart}>
