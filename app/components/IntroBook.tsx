@@ -24,6 +24,7 @@ Page.displayName = 'Page';
 
 export default function IntroBook({ onToggleMode }: { onToggleMode?: () => void }) {
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const bookRef = useRef<any>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isBookFinished, setIsBookFinished] = useState(false);
@@ -38,15 +39,8 @@ export default function IntroBook({ onToggleMode }: { onToggleMode?: () => void 
       setDisplayText(text.slice(0, i));
       await new Promise((resolve) => setTimeout(resolve, 50));
     }
-    setIsTyping(false);
-  };
-
-  const nextPage = () => {
-    if (bookRef.current) {
-      bookRef.current.pageFlip().flipNext();
-    }
-  };
-
+    setIsTyping(false);  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePageFlip = (e: any) => {
     setCurrentPage(e.data);
     if (e.data >= 6) { // Last page index

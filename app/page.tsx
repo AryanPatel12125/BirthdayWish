@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import IntroBook from './components/IntroBook';
 import styles from './page.module.css';
 
 // --- Data Arrays ---
@@ -11,6 +10,7 @@ const wishes = [
   "Let's turn your birthday mode on... ✨",
   "We thought we'd wish you a little differently, just like you - thoda sa paagal aur bahot saara pyaara... 🎉",
   "So here's a teeny tiny wish, revolving around Heli Parmaarrrr!... 🚁🚀",
+  "Enjoy the chapri music, it was a last minute addition! 🎶",
 ];
 
 // This interface defines the possible fullscreen methods for cross-browser safety
@@ -21,7 +21,6 @@ interface HTMLElementWithFullscreen extends HTMLElement {
 
 export default function TrialPage() {
   const router = useRouter();
-  const [useBookMode, setUseBookMode] = useState(true); // Toggle between book and original
   const [isStarted, setIsStarted] = useState(false);
   const [displayText, setDisplayText] = useState('');
   const [isMuted, setIsMuted] = useState(false);
@@ -31,27 +30,20 @@ export default function TrialPage() {
   const mainRef = useRef<HTMLElement>(null);
   const emojiIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // If book mode is enabled, render the IntroBook component
-  if (useBookMode) {
-    return <IntroBook onToggleMode={() => setUseBookMode(false)} />;
-  }
-
   // --- Helper Functions ---
-  // This function now uses our safe interface instead of 'any'
   const goFullScreen = (element: HTMLElement) => {
     const el = element as HTMLElementWithFullscreen;
     if (el.requestFullscreen) {
       el.requestFullscreen();
-    } else if (el.webkitRequestFullscreen) { /* Safari */
+    } else if (el.webkitRequestFullscreen) {
       el.webkitRequestFullscreen();
-    } else if (el.msRequestFullscreen) { /* IE11 */
+    } else if (el.msRequestFullscreen) {
       el.msRequestFullscreen();
     }
   };
 
   // --- Effects ---
   useEffect(() => {
-    // Create stars on component mount
     const generatedStars = Array.from({ length: 200 }).map(() => ({
       left: `${Math.random() * 100}%`,
       top: `${Math.random() * 100}%`,
@@ -60,7 +52,6 @@ export default function TrialPage() {
     }));
     setStars(generatedStars);
 
-    // Cleanup interval on component unmount
     return () => {
       if (emojiIntervalRef.current) {
         clearInterval(emojiIntervalRef.current);
@@ -69,21 +60,35 @@ export default function TrialPage() {
   }, []);
 
   // --- Audio and Effects Control ---
-  // This corrected type signature EXACTLY matches the type of bgMusicRef
-  const playAudio = (ref: React.RefObject<HTMLAudioElement | null>) => {
+  const playAudio = async (ref: React.RefObject<HTMLAudioElement | null>) => {
     if (ref.current) {
-      ref.current.volume = 0.5;
-      ref.current.play().catch(err => console.log("Audio play failed:", err));
+      try {
+        ref.current.volume = 0.5;
+        await ref.current.play();
+        console.log("Audio started playing");
+      } catch (err) {
+        console.log("Audio play failed:", err);
+        // Try to enable audio after user interaction
+        setTimeout(async () => {
+          try {
+            if (ref.current) {
+              await ref.current.play();
+            }
+          } catch (retryErr) {
+            console.log("Audio retry failed:", retryErr);
+          }
+        }, 100);
+      }
     }
-  };  const typeWriter = async (text: string) => {
+  };
+
+  const typeWriter = async (text: string) => {
     for (const char of text) {
       setDisplayText((prev) => prev + char);
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
   };
 
-  // This function should ONLY be responsible for the typing animation.
-  // All state management will be moved to handleStart.
   const startTypingAnimation = async () => {
     setDisplayText('');
     for (const wish of wishes) {
@@ -96,13 +101,11 @@ export default function TrialPage() {
   };
 
   // --- Event Handlers ---
-  // This function is restructured to be more iOS-friendly.
   const handleStart = () => {
     setIsStarted(true);
     setIsAnimationFinished(false);
     playAudio(bgMusicRef);
 
-    // Use our new, robust fullscreen function
     if (mainRef.current) {
       goFullScreen(mainRef.current);
     }
@@ -113,10 +116,10 @@ export default function TrialPage() {
       if (emojiIntervalRef.current) {
         clearInterval(emojiIntervalRef.current);
       }
-      // Show the 'Continue' button after everything else is finished.
       setIsAnimationFinished(true);
     });
   };
+
   const handleNextClick = () => {
     router.push('/guess');
   };
@@ -149,15 +152,6 @@ export default function TrialPage() {
         ))}
       </div>
 
-      {/* Mode Toggle Button */}
-      <button 
-        className={styles.modeToggle} 
-        onClick={() => setUseBookMode(true)}
-        title="Switch to Book Mode"
-      >
-        📖
-      </button>
-
       {!isStarted ? (
         <button className={styles.startBtn} onClick={handleStart}>
           Click to Start✨
@@ -165,7 +159,7 @@ export default function TrialPage() {
       ) : (
         <div className={styles.wishesContainer}>
           <div className={`${styles.wishes} ${styles.neonText}`}>{displayText}</div>
-          {/* 4. Conditionally render the button */}          {isAnimationFinished && (
+          {isAnimationFinished && (
             <div className={styles.buttonContainer}>
               <button className={styles.nextButton} onClick={handleNextClick}>
                 Continue Journey →
@@ -175,12 +169,12 @@ export default function TrialPage() {
         </div>
       )}
 
-      {/* Music Player Slider (now separate) */}
+      {/* Music Player Slider */}
       <div className={styles.musicPlayer}>
         <div className={styles.songInfoSlider}>
           <div className={styles.songInfoTrack}>
-            <span>Mikrokosmos - BTS Playing...&nbsp;&nbsp;&nbsp;</span>
-            <span>Mikrokosmos - BTS Playing...&nbsp;&nbsp;&nbsp;</span>
+            <span>Pagli Playing...&nbsp;&nbsp;&nbsp;</span>
+            <span>Pagli Playing...&nbsp;&nbsp;&nbsp;</span>
           </div>
         </div>
       </div>
@@ -190,7 +184,14 @@ export default function TrialPage() {
         {isMuted ? "🔇" : "🔊"}
       </button>
 
-      <audio ref={bgMusicRef} src="/mikrokosmos.mp3" loop />
+      <audio 
+        ref={bgMusicRef} 
+        src="/Pagli.mp3" 
+        loop 
+        preload="auto"
+        onLoadedData={() => console.log("Audio loaded successfully")}
+        onError={(e) => console.error("Audio error:", e)}
+      />
     </main>
   );
 }

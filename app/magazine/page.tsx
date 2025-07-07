@@ -154,9 +154,8 @@ export default function MagazinePage() {
   
   // Determine which spread to show in the flip based on direction
   const flipSpreadData = flipDirection === 'forward' ? nextSpreadData : prevSpreadData;
-
   // Helper function to render page content
-  const renderPageContent = (pageData: any, isLeft: boolean = false) => {
+  const renderPageContent = (pageData: { type: string; title?: string; subtitle?: string; image?: string | null } | null) => {
     if (!pageData) {
       return <div className={styles.emptyPage}></div>;
     }
@@ -169,8 +168,7 @@ export default function MagazinePage() {
           <div className={styles.coverDecoration}>🎉✨🎂✨🎉</div>
           <p className={styles.coverMessage}>Made with love for an amazing person</p>
         </div>
-      );
-    } else if (pageData.type === 'photo') {
+      );    } else if (pageData.type === 'photo' && pageData.image) {
       return (
         <div className={styles.photoContent}>
           <Image
@@ -206,7 +204,7 @@ export default function MagazinePage() {
           {/* Left Page */}
           <div className={styles.leftPage}>
             <div className={styles.pageContent}>
-              {renderPageContent(currentSpreadData.left, true)}
+              {renderPageContent(currentSpreadData.left)}
               {currentSpreadData.left && (
                 <div className={styles.pageNumber}>{currentSpread * 2}</div>
               )}
@@ -216,7 +214,7 @@ export default function MagazinePage() {
           {/* Right Page */}
           <div className={styles.rightPage}>
             <div className={styles.pageContent}>
-              {renderPageContent(currentSpreadData.right, false)}
+              {renderPageContent(currentSpreadData.right)}
               {currentSpreadData.right && (
                 <div className={styles.pageNumber}>{currentSpread * 2 + 1}</div>
               )}
@@ -225,7 +223,7 @@ export default function MagazinePage() {
           <div className={styles.pageFlip}>
             {flipDirection === 'forward' && flipSpreadData && (
               <div className={styles.pageContent}>
-                {renderPageContent(flipSpreadData.left, true)}
+                {renderPageContent(flipSpreadData.left)}
                 {flipSpreadData.left && (
                   <div className={styles.pageNumber}>{(currentSpread + 1) * 2}</div>
                 )}
@@ -237,7 +235,7 @@ export default function MagazinePage() {
           <div className={styles.pageFlipBackward}>
             {flipDirection === 'backward' && flipSpreadData && (
               <div className={styles.pageContent}>
-                {renderPageContent(flipSpreadData.right, false)}
+                {renderPageContent(flipSpreadData.right)}
                 {flipSpreadData.right && (
                   <div className={styles.pageNumber}>{(currentSpread - 1) * 2 + 1}</div>
                 )}

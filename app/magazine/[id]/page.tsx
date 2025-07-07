@@ -165,7 +165,7 @@ export default function DynamicMagazinePage() {
         <div className={styles.loadingContainer}>
           <div className={styles.loadingSpinner}></div>
           <h2 className={styles.loadingText}>Loading Magazine...</h2>
-          <p className={styles.loadingSubtext}>Preparing {magazineId}'s special memories</p>
+          <p className={styles.loadingSubtext}>Preparing {magazineId}&apos;s special memories</p>
         </div>
       </main>
     );
