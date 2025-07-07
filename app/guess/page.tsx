@@ -22,8 +22,8 @@ Guess it right, and let the joy rise.`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (keyword.toLowerCase().trim() === 'oldcat') {
-      router.push('/birthday');
+    if (keyword.toLowerCase().trim() === 'chinku') {
+      router.push('/magazine');
     } else {
       setError(true);
       setKeyword('');
