@@ -58,26 +58,39 @@ export default function TrialPage() {
       }
     };
   }, []);
-
   // --- Audio and Effects Control ---
   const playAudio = async (ref: React.RefObject<HTMLAudioElement | null>) => {
     if (ref.current) {
       try {
+        // Force load the audio file first
+        ref.current.load();
         ref.current.volume = 0.5;
+        
+        // Add a small delay to ensure file is loaded
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
         await ref.current.play();
-        console.log("Audio started playing");
+        console.log("Audio started playing successfully");
       } catch (err) {
-        console.log("Audio play failed:", err);
-        // Try to enable audio after user interaction
+        console.error("Audio play failed:", err);
+        
+        // Enhanced retry mechanism for production environments
         setTimeout(async () => {
           try {
             if (ref.current) {
+              ref.current.load(); // Reload the audio
+              await new Promise(resolve => setTimeout(resolve, 300));
               await ref.current.play();
+              console.log("Audio started playing after retry");
             }
           } catch (retryErr) {
-            console.log("Audio retry failed:", retryErr);
+            console.error("Audio retry failed:", retryErr);
+            // Log more details for debugging
+            console.error("Audio src:", ref.current?.src);
+            console.error("Audio readyState:", ref.current?.readyState);
+            console.error("Audio networkState:", ref.current?.networkState);
           }
-        }, 100);
+        }, 500);
       }
     }
   };
@@ -182,16 +195,19 @@ export default function TrialPage() {
       {/* Standalone Mute Button */}
       <button className={styles.muteBtn} onClick={toggleMute}>
         {isMuted ? "🔇" : "🔊"}
-      </button>
-
-      <audio 
+      </button>      <audio 
         ref={bgMusicRef} 
-        src="/Pagli.mp3" 
         loop 
-        preload="auto"
+        preload="metadata"
+        crossOrigin="anonymous"
         onLoadedData={() => console.log("Audio loaded successfully")}
         onError={(e) => console.error("Audio error:", e)}
-      />
+        onCanPlay={() => console.log("Audio can play")}
+        onLoadStart={() => console.log("Audio load started")}
+      >
+        <source src="/pagli.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
     </main>
   );
 }

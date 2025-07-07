@@ -9,16 +9,20 @@ export default function GatePage() {
   const [error, setError] = useState(false);
   const router = useRouter();
 
-  const riddle = `Two rode ahead, one stayed to see,
-A lesson turned to sudden spree.
-The engine roared, the front rose high,
-A short flight, then wood met thigh.
-What word recalls that bumpy thrill—
-The shaky start, the flying will?`;
+  const riddle = `Some goodbyes are never forever,
+Sometimes love finds its way back... with fur.
+
+"You once lost a friend who purred so true,
+But now tiny paws remind you of her too.
+Not quite the same, but still they stay,
+Little shadows of love that never fade away."
+
+One word is the key to unlock your surprise —
+Guess it right, and let the joy rise.`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (keyword.toLowerCase().trim() === 'wheelie') {
+    if (keyword.toLowerCase().trim() === 'oldcat') {
       router.push('/birthday');
     } else {
       setError(true);
