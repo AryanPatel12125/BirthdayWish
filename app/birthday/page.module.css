@@ -239,3 +239,74 @@
     left: var(--x-end);
   }
 }
+
+/* Action Buttons */
+.actionButtons {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.homeButton {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+  text-align: center;
+}
+
+.homeButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.dynamicMagazineButton {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 154, 158, 0.9));
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+  text-align: center;
+}
+
+.dynamicMagazineButton:hover {
+  background: linear-gradient(135deg, rgba(255, 107, 107, 1), rgba(255, 154, 158, 1));
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments for action buttons */
+@media (max-width: 768px) {
+  .actionButtons {
+    top: 10px;
+    right: 10px;
+    gap: 10px;
+  }
+  
+  .homeButton,
+  .dynamicMagazineButton {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-width: 140px;
+  }
+}

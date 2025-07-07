@@ -6,10 +6,10 @@ import styles from './page.module.css';
 
 // --- Data Arrays ---
 const wishes = [
-  "🌟 Dear Janki... 🌟",
-  "On this special day... ✨",
-  "We wanted to wish you in a very unique way... 🎉",
-  "Let's take you on a little journey!... 🚀",
+  "🌟 Dear Heli... 🌟",
+  "Let's turn your birthday mode on... ✨",
+  "We thought we'd wish you a little differently, just like you - thoda sa paagal aur bahot saara pyaara... 🎉",
+  "So here's a teeny tiny wish, revolving around Heli Parmaarrrr!... 🚁🚀",
 ];
 
 // This interface defines the possible fullscreen methods for cross-browser safety
@@ -68,10 +68,8 @@ export default function TrialPage() {
       ref.current.volume = 0.5;
       ref.current.play().catch(err => console.log("Audio play failed:", err));
     }
-  };
-
-  const typeWriter = async (text: string) => {
-    for (const char of text) { // Changed 'let' to 'const'
+  };  const typeWriter = async (text: string) => {
+    for (const char of text) {
       setDisplayText((prev) => prev + char);
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
@@ -112,7 +110,6 @@ export default function TrialPage() {
       setIsAnimationFinished(true);
     });
   };
-
   const handleNextClick = () => {
     router.push('/guess');
   };
@@ -152,11 +149,12 @@ export default function TrialPage() {
       ) : (
         <div className={styles.wishesContainer}>
           <div className={`${styles.wishes} ${styles.neonText}`}>{displayText}</div>
-          {/* 4. Conditionally render the button */}
-          {isAnimationFinished && (
-            <button className={styles.nextButton} onClick={handleNextClick}>
-              Continue →
-            </button>
+          {/* 4. Conditionally render the button */}          {isAnimationFinished && (
+            <div className={styles.buttonContainer}>
+              <button className={styles.nextButton} onClick={handleNextClick}>
+                Continue Journey →
+              </button>
+            </div>
           )}
         </div>
       )}

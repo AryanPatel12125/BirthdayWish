@@ -1,17 +1,19 @@
 :root {
-  --primary-color: #ff00ff;
-  --secondary-color: #00ffff;
-  --text-color: #fff;
+  --primary-color: #4dabf7; /* Light blue */
+  --secondary-color: #339af0; /* Medium blue */
+  --text-color: #e3f2fd; /* Very light blue */
   --background-start-rgb: 240, 248, 255; /* rgba(240, 248, 255, 1) */
   --background-end-rgb: 10, 10, 10; /* rgba(10, 10, 10, 1) */
-  --foreground: #111; /* Default light text */
+  --foreground: #e3f2fd; /* Light bluish text */
+  --foreground-rgb: 227, 242, 253; /* RGB values for --foreground */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background-end-rgb: 240, 248, 255; /* rgba(240, 248, 255, 1) */
     --background-start-rgb: 10, 10, 10; /* rgba(10, 10, 10, 1) */
-    --foreground: #ededed;
+    --foreground: #bbdefb; /* Bluish text for dark mode */
+    --foreground-rgb: 187, 222, 251; /* RGB values for dark mode foreground */
   }
 }
 

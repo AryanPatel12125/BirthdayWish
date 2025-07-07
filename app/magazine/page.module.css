@@ -1,0 +1,675 @@
+/* Container and Background */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 50%, #f48fb1 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+  z-index: -2;
+}
+
+.background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 105, 180, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(255, 20, 147, 0.1) 0%, transparent 50%);
+  animation: twinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Navigation */
+.homeButton {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.homeButton:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Book Container */
+.bookContainer {
+  perspective: 1500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.book {
+  width: 800px;
+  height: 600px;
+  position: relative;
+  transform-style: preserve-3d;
+  box-shadow: 
+    0 20px 40px rgba(233, 30, 99, 0.4),
+    0 10px 20px rgba(173, 20, 87, 0.3);
+  border-radius: 12px;
+  overflow: visible;
+  background: linear-gradient(135deg, #e91e63 0%, #ad1457 100%);
+  border: 3px solid #c2185b;
+}
+
+.book::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(233, 30, 99, 0), rgba(173, 20, 87, 0.3));
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+  z-index: 4;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.book.flipping {
+  /* Book tilts slightly when flipping */
+  transform: rotateY(-2deg);
+}
+
+.book.flipping::before {
+  opacity: 1;
+}
+
+/* Pages */
+.leftPage,
+.rightPage {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  border: 1px solid #e91e63;
+  box-shadow: inset 0 0 10px rgba(233, 30, 99, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+  transform-style: preserve-3d;
+  color: #333;
+}
+
+.leftPage {
+  left: 0;
+  border-right: 2px solid #e91e63;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  z-index: 1;
+}
+
+.rightPage {
+  right: 0;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 2;
+}
+
+/* Animated page that flips forward */
+.pageFlip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  border: 1px solid #e91e63;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  color: #333;
+  backface-visibility: hidden;
+  box-shadow: inset 0 0 10px rgba(233, 30, 99, 0.1);
+}
+
+/* Animated page that flips backward */
+.pageFlipBackward {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+  border: 1px solid #e91e63;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  transform-style: preserve-3d;
+  transform-origin: right center;
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  color: #333;
+  backface-visibility: hidden;
+  box-shadow: inset 0 0 10px rgba(233, 30, 99, 0.1);
+}
+
+/* Page flip states - forward */
+.book.flipping.forward .pageFlip {
+  opacity: 1;
+  transform: rotateY(-180deg);
+  box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Fix content visibility during forward flip */
+.book.flipping.forward .pageFlip .pageContent {
+  transform: rotateY(180deg); /* Counter-rotate the content so it's readable */
+  backface-visibility: visible;
+}
+
+/* Ensure text elements in forward flip are readable */
+.book.flipping.forward .pageFlip .pageTitle,
+.book.flipping.forward .pageFlip .pageSubtitle,
+.book.flipping.forward .pageFlip .pageText,
+.book.flipping.forward .pageFlip .pageNumber,
+.book.flipping.forward .pageFlip .coverTitle,
+.book.flipping.forward .pageFlip .coverSubtitle,
+.book.flipping.forward .pageFlip .coverMessage,
+.book.flipping.forward .pageFlip .coverDecoration {
+  transform: scaleX(-1); /* Flip text horizontally to make it readable */
+}
+
+/* Page flip states - backward */
+.book.flipping.backward .pageFlipBackward {
+  opacity: 1;
+  transform: rotateY(180deg);
+  box-shadow: 5px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+/* Ensure flip page content is properly styled */
+.pageFlip .pageContent,
+.pageFlipBackward .pageContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Back side of the forward flipping page */
+.pageFlip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+  border: 1px solid #e91e63;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  box-shadow: inset 0 0 10px rgba(233, 30, 99, 0.1);
+  z-index: -1;
+}
+
+/* Back side of the backward flipping page */
+.pageFlipBackward::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+  border: 1px solid #e91e63;
+  border-radius: 10px;
+  backface-visibility: hidden;
+  transform: rotateY(-180deg);
+  box-shadow: inset 0 0 10px rgba(233, 30, 99, 0.1);
+  z-index: -1;
+}
+
+/* Add a subtle shadow overlay during flip */
+.book.flipping .pageFlip::before,
+.book.flipping .pageFlipBackward::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    rgba(233, 30, 99, 0.1) 0%, 
+    rgba(173, 20, 87, 0.05) 50%, 
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  z-index: 5;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Fix text direction in backward flipped content */
+.pageFlipBackward .pageContent {
+  transform: scaleX(-1); /* Flip the content horizontally so it reads correctly */
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.pageFlipBackward .pageTitle,
+.pageFlipBackward .pageSubtitle,
+.pageFlipBackward .pageText,
+.pageFlipBackward .pageNumber,
+.pageFlipBackward .coverTitle,
+.pageFlipBackward .coverSubtitle,
+.pageFlipBackward .coverMessage,
+.pageFlipBackward .coverDecoration {
+  transform: scaleX(-1); /* Double flip to make text readable */
+}
+
+/* Handle images in flipped pages */
+.pageFlipBackward .photoContent {
+  transform: scaleX(-1); /* Flip the image back to normal orientation */
+}
+
+/* Fix images in forward flip */
+.book.flipping.forward .pageFlip .photoContent {
+  transform: rotateY(180deg) scaleX(-1); /* Counter-rotate and flip photos in forward flip */
+}
+
+/* Ensure images in flip pages are properly sized */
+.pageFlip .photoContent,
+.pageFlipBackward .photoContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.pageFlip .pageImage,
+.pageFlipBackward .pageImage {
+  border-radius: 6px;
+  transition: none; /* Disable hover effects during flip */
+}
+
+/* Empty page styling */
+.emptyPage {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* Page Content Styles */
+.pageContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  color: #333;
+  overflow: hidden;
+}
+
+.pageHeader {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.pageSubtitle {
+  font-size: 18px;
+  font-weight: 400;
+  color: #cbd5e0;
+  margin-bottom: 0;
+}
+
+.pageBody {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageText {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #e2e8f0;
+  text-align: center;
+  max-width: 100%;
+  white-space: pre-line;
+}
+
+.pageNumber {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 14px;
+  color: #e91e63;
+  font-weight: 500;
+}
+
+/* Photo Content Styles */
+.photoContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #000;
+}
+
+.pageImage {
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.pageImage:hover {
+  transform: scale(1.02);
+}
+
+/* Cover Content Styles */
+.coverContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 40px;
+}
+
+.coverTitle {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #e91e63 0%, #ad1457 50%, #880e4f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  text-shadow: 0 0 30px rgba(233, 30, 99, 0.3);
+}
+
+.coverSubtitle {
+  font-size: 22px;
+  font-weight: 300;
+  color: #c2185b;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+.coverDecoration {
+  font-size: 24px;
+  margin: 20px 0;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.coverMessage {
+  font-size: 16px;
+  color: #ad1457;
+  font-style: italic;
+  margin-top: 30px;
+  opacity: 0.9;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.navButton {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 25px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  min-width: 120px;
+}
+
+.navButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Page Indicator */
+.pageIndicator {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pageIndicatorDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.pageIndicatorDot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: scale(1.2);
+}
+
+.pageIndicatorDot.active {
+  background: white;
+  border-color: #667eea;
+  transform: scale(1.3);
+  box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+}
+
+/* Page Counter */
+.pageCounter {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4a5568;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Help Text */
+.helpText {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #718096;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.helpText:hover {
+  opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .book {
+    width: 700px;
+    height: 500px;
+  }
+  
+  .pageTitle {
+    font-size: 24px;
+  }
+  
+  .coverTitle {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+  
+  .book {
+    width: 90vw;
+    max-width: 600px;
+    height: 400px;
+  }
+  
+  .leftPage,
+  .rightPage {
+    padding: 20px;
+  }
+  
+  .pageTitle {
+    font-size: 20px;
+  }
+  
+  .coverTitle {
+    font-size: 24px;
+  }
+  
+  .pageText {
+    font-size: 14px;
+  }
+  
+  .controls {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .navButton {
+    min-width: 100px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .book {
+    height: 350px;
+  }
+  
+  .leftPage,
+  .rightPage {
+    padding: 15px;
+  }
+  
+  .pageTitle {
+    font-size: 18px;
+  }
+  
+  .coverTitle {
+    font-size: 20px;
+  }
+  
+  .pageText {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  
+  .homeButton {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+}

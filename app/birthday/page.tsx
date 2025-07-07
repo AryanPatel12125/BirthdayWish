@@ -1,11 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import birthdayPoster from './birthday-poster.png'; 
 import styles from './page.module.css';
 
 export default function BirthdayPage() {
+  const router = useRouter();
   const [orbs, setOrbs] = useState<{ style: React.CSSProperties }[]>([]);
 
   // Generate decorative orbs on component mount
@@ -22,6 +24,13 @@ export default function BirthdayPage() {
     }));
     setOrbs(generatedOrbs);
   }, []);
+  const goToMagazine = () => {
+    router.push('/magazine');
+  };
+
+  const goHome = () => {
+    router.push('/');
+  };
 
   return (
     <main className={styles.main}>
@@ -41,6 +50,16 @@ export default function BirthdayPage() {
         priority // Helps load the main image faster
       />
       
+      {/* Floating Action Buttons */}
+      <div className={styles.actionButtons}>
+        <button className={styles.dynamicMagazineButton} onClick={goToMagazine} title="Open Magazine">
+          📖 Magazine
+        </button>
+        <button className={styles.homeButton} onClick={goHome} title="Back to Start">
+          🏠 Home
+        </button>
+      </div>
+
       {/* 
         The message content is kept here, commented out.
         We will move this into a sidebar in the next step.
