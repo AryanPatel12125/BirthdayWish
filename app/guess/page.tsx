@@ -20,7 +20,7 @@ Little shadows of love that never fade away."
 One word is the key to unlock your surprise —
 Guess it right, and let the joy rise.`;  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (keyword.toLowerCase().trim() === 'chinku') {
+    if (keyword.toLowerCase().trim() === 'chinku' || keyword.toLowerCase().trim() === 'bachli') {
       router.push('/magazine');
     } else {
       setError(true);
