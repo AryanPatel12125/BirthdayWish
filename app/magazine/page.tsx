@@ -5,20 +5,20 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import styles from './page.module.css';
 
-// Magazine content with photos from the janki folder - organized as book spreads
+// Magazine content with photos from the Heli folder - organized as book spreads
 const magazinePages = [
-  "/magazines/janki/1.png",
-  "/magazines/janki/2.png",
-  "/magazines/janki/3.png",
-  "/magazines/janki/4.png",
-  "/magazines/janki/5.png",
-  "/magazines/janki/6.png",
-  "/magazines/janki/7.png",
-  "/magazines/janki/8.png",
-  "/magazines/janki/9.png",
-  "/magazines/janki/10.png",
-  "/magazines/janki/11.png",
-  "/magazines/janki/12.png",
+  "/magazines/Heli/1.png",
+  "/magazines/Heli/2.png",
+  "/magazines/Heli/3.png",
+  "/magazines/Heli/4.png",
+  "/magazines/Heli/5.png",
+  "/magazines/Heli/6.png",
+  "/magazines/Heli/7.png",
+  "/magazines/Heli/8.png",
+  "/magazines/Heli/9.png",
+  "/magazines/Heli/10.png",
+  "/magazines/Heli/11.png",
+  "/magazines/Heli/12.png",
 ];
 
 // Create spreads: each spread contains left and right page
@@ -30,7 +30,7 @@ const createSpreads = () => {
     left: null,
     right: {
       type: 'cover',
-      title: "Janki's Birthday Magazine",
+      title: "Heli's Birthday Magazine",
       subtitle: "A Special Photo Edition",
       image: null
     }
@@ -98,7 +98,6 @@ export default function MagazinePage() {
   const goHome = () => {
     router.push('/');
   };
-
   // Add keyboard navigation
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -108,11 +107,13 @@ export default function MagazinePage() {
         case 'ArrowRight':
         case ' ': // Spacebar
           event.preventDefault();
-          nextSpreadWithEffect();
+          playFlipSound();
+          nextSpread();
           break;
         case 'ArrowLeft':
           event.preventDefault();
-          prevSpreadWithEffect();
+          playFlipSound();
+          prevSpread();
           break;
         case 'Home':
           event.preventDefault();
