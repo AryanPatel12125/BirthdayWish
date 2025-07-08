@@ -197,15 +197,14 @@ export default function DynamicMagazinePage() {
           <p className={styles.coverMessage}>Made with love for an amazing person</p>
         </div>
       );
-    } else if (pageData.type === 'photo' && pageData.image) {
-      return (
+    } else if (pageData.type === 'photo' && pageData.image) {      return (
         <div className={styles.photoContent}>
           <Image
             src={pageData.image}
             alt={`Photo`}
             fill
             className={styles.pageImage}
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'contain' }}
           />
         </div>
       );

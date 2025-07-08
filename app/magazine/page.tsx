@@ -19,6 +19,18 @@ const magazinePages = [
   "/magazines/Heli/10.png",
   "/magazines/Heli/11.png",
   "/magazines/Heli/12.png",
+  "/magazines/Heli/13.png",
+  "/magazines/Heli/14.png",
+  "/magazines/Heli/15.png",
+  "/magazines/Heli/16.png",
+  "/magazines/Heli/17.png",
+  "/magazines/Heli/18.png",
+  "/magazines/Heli/19.png",
+  "/magazines/Heli/20.png",
+  "/magazines/Heli/21.png",
+  "/magazines/Heli/22.png",
+  "/magazines/Heli/23.png",
+  "/magazines/Heli/24.png",
 ];
 
 // Create spreads: each spread contains left and right page
@@ -169,15 +181,14 @@ export default function MagazinePage() {
           <div className={styles.coverDecoration}>🎉✨🎂✨🎉</div>
           <p className={styles.coverMessage}>Made with love for an amazing person</p>
         </div>
-      );    } else if (pageData.type === 'photo' && pageData.image) {
-      return (
+      );    } else if (pageData.type === 'photo' && pageData.image) {      return (
         <div className={styles.photoContent}>
           <Image
             src={pageData.image}
             alt={`Photo`}
             fill
             className={styles.pageImage}
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'contain' }}
           />
         </div>
       );
